@@ -21,7 +21,7 @@ setup(
     version='0.1.0',
     namespace_packages=name.split('.')[:-1],
     license='GPLv3',
-    descrption='A lego for checking stocks!',
+    description='A lego for checking stocks!',
     author='Brenton Briggs II',
     url='https://github.com/bbriggs/' + name,
     install_requires=['legobot>=1.0.1',
