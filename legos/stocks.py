@@ -12,7 +12,8 @@ class Stocks(Lego):
             try:
                 return message['text'].split()[0] == '!stocks'
             except Exception as e:
-                logger.error('Stocks lego failed to check message text: %s' % e)
+                logger.error('Stocks lego failed to check message text: %s'
+                             % e)
                 return False
 
     def handle(self, message):
