@@ -8,7 +8,12 @@ logger = logging.getLogger(__name__)
 
 class Stocks(Lego):
     def listening_for(self, message):
-        return message['text'].split()[0] == '!stocks'
+        if message['test'] is not None:
+            try:
+                return message['text'].split()[0] == '!stocks'
+            except Exception as e:
+                logger.error('Stocks lego failed to check message text: %s' % e)
+                return False
 
     def handle(self, message):
         try:
