@@ -18,7 +18,7 @@ from setuptools import setup, find_packages
 name = 'legos.stocks'
 setup(
     name=name,
-    version='0.1.1',
+    version='0.1.2',
     namespace_packages=name.split('.')[:-1],
     license='GPLv3',
     description='A lego for checking stocks!',
