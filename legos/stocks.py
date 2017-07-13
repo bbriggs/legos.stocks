@@ -2,6 +2,7 @@ import requests
 import logging
 import json
 from Legobot.Lego import Lego
+from .cryptocurrency import Crypto  # noqa: F401
 
 logger = logging.getLogger(__name__)
 
