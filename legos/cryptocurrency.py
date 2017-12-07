@@ -41,13 +41,12 @@ class Cryptocurrency(Lego):
             params['tsyms'] = 'USD,BTC'  # tsyms, the SYMbolS to convert To
         api_response = requests.get(request_url, params=params)
         if api_response.status_code == requests.codes.ok:
-            return_val = self._parse_api_response(api_response, query)
+            return self._parse_api_response(api_response, query)
         else:
             logger.error('Requests encountered an error.')
             logger.error('''HTTP GET response code:
                         {}'''.format(api_response.status_code))
-            return_val = api_response.raise_for_status()
-        return return_val
+            return api_response.raise_for_status()
 
     def _parse_api_response(self, api_response, query):
         api_response = json.loads(api_response.text)
