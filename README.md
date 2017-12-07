@@ -11,7 +11,7 @@ The `stocks` package actually contains two legos: `stocks`, which reads ticker s
 The usage for both is similar:
 
 `!stocks APPL`
-`!crypto btc`
+`!crypto BTC`
 
 ## Installation
 
