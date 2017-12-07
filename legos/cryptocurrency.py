@@ -6,7 +6,7 @@ import json
 logger = logging.getLogger(__name__)
 
 
-class Crypto(Lego):
+class Cryptocurrency(Lego):
     def listening_for(self, message):
         if message['text'] is not None:
             try:
@@ -32,21 +32,27 @@ class Crypto(Lego):
         self.reply(message, self.lookup_symbol(query), opts)
 
     def lookup_symbol(self, query):
-        request_url = 'https://api.cryptonator.com/api/ticker/{}-USD'.format(
-                      query)
-        api_response = requests.get(request_url)
+        request_url = 'https://min-api.cryptocompare.com/data/price'
+        params = {}
+        params['fsym'] = query  # fsym, the SYMbol to convert From
+        if query == 'BTC':
+            params['tsyms'] = 'USD'  # tsyms, the SYMbolS to convert To
+        else:
+            params['tsyms'] = 'USD,BTC'  # tsyms, the SYMbolS to convert To
+        api_response = requests.get(request_url, params=params)
         if api_response.status_code == requests.codes.ok:
-            return_val = self._parse_for_ticker(api_response, query)
+            return self._parse_api_response(api_response, query)
         else:
             logger.error('Requests encountered an error.')
             logger.error('''HTTP GET response code:
                         {}'''.format(api_response.status_code))
-            api_response.raise_for_status()
-        return return_val
+            return api_response.raise_for_status()
 
-    def _parse_for_ticker(self, api_response, query):
+    def _parse_api_response(self, api_response, query):
         api_response = json.loads(api_response.text)
-        return_val = '${}'.format(api_response['ticker']['price'])
+        return_val = query + ':  |  '
+        for key, value in api_response.items():
+            return_val += '{} {}  |  '.format(value, key)
         if query == 'DOGE':
             return_val = 'WOW! {}  TO THE MOON!!!'.format(return_val)
         return return_val
@@ -57,4 +63,4 @@ class Crypto(Lego):
     def get_help(self):
         return '''Lookup a crypto symbol's value. Usage: !crypto <symbol>.
                 List of symbols here
-                https://api.cryptonator.com/api/currencies.'''
+                https://min-api.cryptocompare.com/data/all/coinlist.'''
