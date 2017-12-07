@@ -51,9 +51,9 @@ class Cryptocurrency(Lego):
 
     def _parse_api_response(self, api_response, query):
         api_response = json.loads(api_response.text)
-        return_val = query + ':  --  '
+        return_val = query + ':  |  '
         for key, value in api_response.items():
-            return_val += '{} {}  --  '.format(value, key)
+            return_val += '{} {}  |  '.format(value, key)
         if query == 'DOGE':
             return_val = 'WOW! {}  TO THE MOON!!!'.format(return_val)
         return return_val
