@@ -34,11 +34,11 @@ class Cryptocurrency(Lego):
     def lookup_symbol(self, query):
         request_url = 'https://min-api.cryptocompare.com/data/price'
         params = {}
-        params['fsym'] = query
+        params['fsym'] = query # fsym, the SYMbol to convert From
         if query == 'BTC':
-            params['tsyms'] = 'USD'
+            params['tsyms'] = 'USD' # tsyms, the SYMbolS to convert To
         else:
-            params['tsyms'] = 'USD,BTC'
+            params['tsyms'] = 'USD,BTC' # tsyms, the SYMbolS to convert To
         api_response = requests.get(request_url, params=params)
         if api_response.status_code == requests.codes.ok:
             return_val = self._parse_api_response(api_response, query)
@@ -64,4 +64,4 @@ class Cryptocurrency(Lego):
     def get_help(self):
         return '''Lookup a crypto symbol's value. Usage: !crypto <symbol>.
                 List of symbols here
-                https://api.cryptonator.com/api/currencies.'''
+                https://min-api.cryptocompare.com/data/all/coinlist.'''
