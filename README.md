@@ -1,6 +1,6 @@
 # Legobot Stocks
 
-[![Travis](https://img.shields.io/travis/bbriggs/legos.stocks.svg)]() [![PyPI](https://img.shields.io/pypi/pyversions/legos.stocks.svg)]() [![PyPI](https://img.shields.io/pypi/v/legos.stocks.svg)]()
+[![Travis](https://img.shields.io/travis/Legobot/legos.stocks.svg)]() [![PyPI](https://img.shields.io/pypi/pyversions/legos.stocks.svg)]() [![PyPI](https://img.shields.io/pypi/v/legos.stocks.svg)]()
 
 [![PyPI](https://img.shields.io/pypi/wheel/legos.stocks.svg)]() [![PyPI](https://img.shields.io/pypi/l/legos.stocks.svg)]() [![PyPI](https://img.shields.io/pypi/status/legos.stocks.svg)]()
 
