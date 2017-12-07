@@ -18,10 +18,11 @@ from setuptools import setup, find_packages
 name = 'legos.stocks'
 setup(
     name=name,
-    version='0.1.2',
+    version='0.1.3',
     namespace_packages=name.split('.')[:-1],
     license='GPLv3',
-    description='A lego for checking stocks!',
+    description='A legobot plugin for checking stocks ' +
+    'and cryptocurrency prices',
     author='Brenton Briggs II',
     url='https://github.com/bbriggs/' + name,
     install_requires=['legobot>=1.0.1',
