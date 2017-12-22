@@ -42,16 +42,47 @@ class Cryptocurrency(Lego):
             params['tsyms'] = 'USD,BTC'  # tsyms, the SYMbolS to convert To
         api_response = requests.get(request_url, params=params)
         if api_response.status_code == requests.codes.ok:
-            return self._parse_api_response(api_response, query)
+            api_response = json.loads(api_response.text)
+            if 'There is no data for the symbol' in api_response['Message']:
+                matched_items = self._search_symbol(query)
+                params['fsym'] = matched_items[0]['symbol']
+                api_response = requests.get(request_url, params=params)
+                if api_response.status_code == requests.codes.ok:
+                    api_response = json.loads(api_response.text)
+                    query = matched_items[0]['symbol']
+                    meta = 'Did you mean {}?'.format(matched_items[0]['name'])
+                    return self._parse_api_response(
+                           api_response, query, meta=meta)
+                else:
+                    return 'We had trouble getting that ticker price.'
+            else:
+                return self._parse_api_response(api_response, query)
         else:
             logger.error('Requests encountered an error.')
             logger.error('''HTTP GET response code:
                         {}'''.format(api_response.status_code))
             return api_response.raise_for_status()
 
-    def _parse_api_response(self, api_response, query):
-        api_response = json.loads(api_response.text)
-        return_val = query + ':  |  '
+    def _search_symbol(self, query):
+        request_url = 'https://min-api.cryptocompare.com/data/all/coinlist'
+        get_list = requests.get(request_url)
+        if get_list.status_code == requests.codes.ok:
+            api_list = json.loads(get_list.text)
+            matched_items = []
+            for coin in api_list['Data']:
+                full_name = api_list['Data'][coin]['FullName']
+                if query in full_name.lower():
+                    matched_items.append({"symbol": coin, "name": full_name})
+
+            return matched_items
+        else:
+            logger.error('Error attempting to get list: ' + api_list.text)
+            return 'There was an error fetching the list'
+
+    def _parse_api_response(self, api_response, query, **kwargs):
+        if 'meta' in kwargs:
+            return_val = kwargs['meta'] + '\n'
+        return_val = return_val + query + ':  |  '
         for key, value in api_response.items():
             return_val += '{} {}  |  '.format(value, key)
         if query == 'DOGE':
