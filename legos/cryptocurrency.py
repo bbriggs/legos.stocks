@@ -32,6 +32,7 @@ class Cryptocurrency(Lego):
         self.reply(message, self.lookup_symbol(query), opts)
 
     def lookup_symbol(self, query):
+        query = query.upper()
         request_url = 'https://min-api.cryptocompare.com/data/price'
         params = {}
         params['fsym'] = query  # fsym, the SYMbol to convert From
