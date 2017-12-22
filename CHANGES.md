@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.1.4] 2017-12-22
+### Added
+
+- Symbol suggestions when requested cryptocurrency symbol is not found
+- Can now pass symbols to cryptocurrency legos as upper or lowercase
+
 ## [0.1.3] 2017-12-7
 ### Added 
 
