@@ -43,16 +43,19 @@ class Cryptocurrency(Lego):
         api_response = requests.get(request_url, params=params)
         if api_response.status_code == requests.codes.ok:
             api_response = json.loads(api_response.text)
-            if 'There is no data for the symbol' in api_response['Message']:
+            if 'Message' in api_response and 'There is no data for the symbol' in api_response['Message']:
                 matched_items = self._search_symbol(query)
-                params['fsym'] = matched_items[0]['symbol']
-                api_response = requests.get(request_url, params=params)
-                if api_response.status_code == requests.codes.ok:
-                    api_response = json.loads(api_response.text)
-                    query = matched_items[0]['symbol']
-                    meta = 'Did you mean {}?'.format(matched_items[0]['name'])
-                    return self._parse_api_response(
-                           api_response, query, meta=meta)
+                if len(matched_items) > 0:
+                    params['fsym'] = matched_items[0]['symbol']
+                    api_response = requests.get(request_url, params=params)
+                    if api_response.status_code == requests.codes.ok:
+                        api_response = json.loads(api_response.text)
+                        query = matched_items[0]['symbol']
+                        meta = 'Did you mean {}?'.format(matched_items[0]['name'])
+                        return self._parse_api_response(
+                               api_response, query, meta=meta)
+                    else:
+                        return 'We had trouble getting that ticker price.'
                 else:
                     return 'We had trouble getting that ticker price.'
             else:
@@ -71,7 +74,7 @@ class Cryptocurrency(Lego):
             matched_items = []
             for coin in api_list['Data']:
                 full_name = api_list['Data'][coin]['FullName']
-                if query in full_name.lower():
+                if query.lower() in full_name.lower():
                     matched_items.append({"symbol": coin, "name": full_name})
 
             return matched_items
@@ -80,6 +83,7 @@ class Cryptocurrency(Lego):
             return 'There was an error fetching the list'
 
     def _parse_api_response(self, api_response, query, **kwargs):
+        return_val = ''
         if 'meta' in kwargs:
             return_val = kwargs['meta'] + '\n'
         return_val = return_val + query + ':  |  '
