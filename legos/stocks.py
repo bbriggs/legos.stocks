@@ -30,7 +30,7 @@ class Stocks(Lego):
         except:
             self.reply(message, "Invalid query", opts)
 
-        self.reply(message, self.lookup_symbol(query), opts)
+        self.reply(message, self._lookup_symbol(query), opts)
 
     def get_name(self):
         return 'stocks'
@@ -38,7 +38,7 @@ class Stocks(Lego):
     def get_help(self):
         return "Lookup a stock symbol's value. Usage: !stocks <symbol>"
 
-    def lookup_symbol(self, symbol):
+    def _lookup_symbol(self, symbol):
         base_url = 'https://www.google.com/finance/info?q='
         url = base_url + symbol
         r = requests.get(url)

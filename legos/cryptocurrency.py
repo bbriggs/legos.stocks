@@ -29,9 +29,9 @@ class Cryptocurrency(Lego):
         except:
             self.reply(message, "Invalid query", opts)
 
-        self.reply(message, self.lookup_symbol(query), opts)
+        self.reply(message, self._lookup_symbol(query), opts)
 
-    def lookup_symbol(self, query):
+    def _lookup_symbol(self, query):
         query = query.upper()
         request_url = 'https://min-api.cryptocompare.com/data/price'
         params = {}
