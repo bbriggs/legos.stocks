@@ -2,6 +2,7 @@ from Legobot.Lego import Lego
 import requests
 import logging
 import json
+import configparser
 
 logger = logging.getLogger(__name__)
 
