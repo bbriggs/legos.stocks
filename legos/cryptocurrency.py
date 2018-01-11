@@ -22,7 +22,8 @@ class Cryptocurrency(Lego):
     def listening_for(self, message):
         if message['text'] is not None:
             try:
-                return message['text'].split()[0] == '!crypto' or message['text'].split()[0] == '!hodl'
+                command = message['text'].split()[0]
+                return command == '!crypto' or command == '!hodl'
             except Exception as e:
                 logger.error('''Stocks lego failed to check message text:
                             {}'''.format(e))
@@ -57,9 +58,11 @@ class Cryptocurrency(Lego):
             return case_dict[message_list[1]](message_list)
 
     def _list_hodl_symbols(self, message_list):
+        fsyms = self.crypto_index['crypto_index']['fsyms']
+        tsyms = self.crypto_index['crypto_index']['tsyms']
         return_val = ''
-        return_val += 'Convert From:  ' + self.crypto_index['crypto_index']['fsyms'] + '\n'
-        return_val += 'Convert To:  ' + self.crypto_index['crypto_index']['tsyms'] + '\n'
+        return_val += 'Convert From:  ' + fsyms + '\n'
+        return_val += 'Convert To:  ' + tsyms + '\n'
         return return_val
 
     def _add_symbols(self, message_list):
