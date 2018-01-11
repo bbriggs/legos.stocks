@@ -52,9 +52,9 @@ class Cryptocurrency(Lego):
             params['tsyms'] = 'USD'  # tsyms, the SYMbolS to convert To
         else:
             params['tsyms'] = 'USD,BTC'  # tsyms, the SYMbolS to convert To
+        request_url = self._build_index_url()
         api_response = requests.get(request_url, params=params)
         if api_response.status_code == requests.codes.ok:
-            api_response = json.loads(api_response.text)
             if 'There is no data for the symbol' in api_response['Message']:
                 matched_items = self._search_symbol(query)
                 params['fsym'] = matched_items[0]['symbol']
@@ -100,6 +100,12 @@ class Cryptocurrency(Lego):
         if query == 'DOGE':
             return_val = 'WOW! {}  TO THE MOON!!!'.format(return_val)
         return return_val
+
+    def _build_index_url(self):
+        baseurl = 'https://min-api.cryptocompare.com/data/pricemulti'
+        fsyms = self.crypto_index['crypto_index']['fsyms']
+        tsyms = self.crypto_index['crypto_index']['tsyms']
+        return baseurl + '?fsyms=' + fsyms + '&tsyms=' + tsyms
 
     def get_name(self):
         return 'crypto'
