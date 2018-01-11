@@ -222,6 +222,12 @@ class Cryptocurrency(Lego):
         return 'crypto'
 
     def get_help(self):
-        return '''Lookup a crypto symbol's value. Usage: !crypto <symbol>.
-                List of symbols here
-                https://min-api.cryptocompare.com/data/all/coinlist.'''
+        return ('Lookup a crypto symbol\'s value. Usage: !crypto <symbol>.\n'
+                'List of symbols here: '
+                'https://min-api.cryptocompare.com/data/all/coinlist.\n'
+                'Usage for !hodl:\n'
+                '!hodl -- returns prices for multiple coins at once.\n'
+                '!hodl list -- returns the list of coins to convert from/to.\n'
+                '!hodl <add/drop> <to/from> <comma separated symbols list>'
+                ' -- adds or drop list of symbols to the convert to or convert'
+                ' from list.')
