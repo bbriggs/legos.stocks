@@ -22,7 +22,7 @@ class Cryptocurrency(Lego):
     def listening_for(self, message):
         if message['text'] is not None:
             try:
-                return message['text'].split()[0] == '!crypto'
+                return message['text'].split()[0] == '!crypto' or message['text'].split()[0] == '!hodl'
             except Exception as e:
                 logger.error('''Stocks lego failed to check message text:
                             {}'''.format(e))
@@ -36,12 +36,14 @@ class Cryptocurrency(Lego):
             logger.error('''Could not identify message source in message:
                         {}'''.format(message))
 
-        try:
-            query = message['text'].split()[1]
-        except:
-            self.reply(message, "Invalid query", opts)
-
-        self.reply(message, self._lookup_symbol(query), opts)
+        if message['text'].split()[0] == '!hodl':
+            self.reply(message, 'HODL!', opts)
+        else:
+            try:
+                query = message['text'].split()[1]
+            except:
+                self.reply(message, "Invalid query", opts)
+            self.reply(message, self._lookup_symbol(query), opts)
 
     def _lookup_symbol(self, query):
         query = query.upper()
