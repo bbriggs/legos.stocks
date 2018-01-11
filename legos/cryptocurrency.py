@@ -8,6 +8,17 @@ logger = logging.getLogger(__name__)
 
 
 class Cryptocurrency(Lego):
+    def __init__(self, baseplate, lock):
+        super().__init__(baseplate, lock)
+        self.crypto_index = configparser.ConfigParser()
+        self.crypto_index.read('crypto_index.ini')
+        if 'crypto_index' not in self.crypto_index.sections():
+            self.crypto_index['crypto_index'] = {}
+            self.crypto_index['crypto_index']['fsyms'] = 'BTC'
+            self.crypto_index['crypto_index']['tsyms'] = 'USD,BTC'
+            with open('crypto_index.ini', 'w') as configfile:
+                self.crypto_index.write(configfile)
+
     def listening_for(self, message):
         if message['text'] is not None:
             try:
