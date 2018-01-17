@@ -52,7 +52,8 @@ class Cryptocurrency(Lego):
                     if api_response.status_code == requests.codes.ok:
                         api_response = json.loads(api_response.text)
                         query = matched_items[0]['symbol']
-                        meta = 'Did you mean {}?'.format(matched_items[0]['name'])
+                        meta = 'Did you mean {}?'.format(
+                                matched_items[0]['name'])
                         return self._parse_api_response(
                                api_response, query, meta=meta)
                     else:
