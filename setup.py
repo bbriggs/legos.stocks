@@ -18,7 +18,7 @@ from setuptools import setup, find_packages
 name = 'legos.stocks'
 setup(
     name=name,
-    version='0.1.4',
+    version='0.1.5',
     namespace_packages=name.split('.')[:-1],
     license='GPLv3',
     description='A legobot plugin for checking stocks ' +
