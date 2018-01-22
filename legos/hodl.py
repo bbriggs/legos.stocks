@@ -53,7 +53,7 @@ class Hodl(Lego):
             case_dict['drop'] = self._drop_symbols
             try:
                 return case_dict[message_list[1]](message_list)
-            except Error as e:
+            except Exception as e:
                 return 'Argument error: ' + e
 
     def _list_hodl_symbols(self, message_list):
