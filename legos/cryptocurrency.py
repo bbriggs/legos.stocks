@@ -26,8 +26,8 @@ class Cryptocurrency(Lego):
 
         try:
             query = message['text'].split()[1]
-        except:
-            self.reply(message, "Invalid query", opts)
+        except IndexError:
+            self.reply(message, "Invalid query. Not enough arguments.", opts)
 
         self.reply(message, self._lookup_symbol(query), opts)
 

@@ -51,7 +51,10 @@ class Hodl(Lego):
             case_dict['list'] = self._list_hodl_symbols
             case_dict['add'] = self._add_symbols
             case_dict['drop'] = self._drop_symbols
-            return case_dict[message_list[1]](message_list)
+            try:
+                return case_dict[message_list[1]](message_list)
+            except Error as e:
+                return 'Argument error: ' + e
 
     def _list_hodl_symbols(self, message_list):
         convert_from = self.hodl['hodl']['convert_from']
