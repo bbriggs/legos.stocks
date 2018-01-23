@@ -1,4 +1,5 @@
 requests
+configparser
 bandit==1.3.0
 pytest==3.0.5
 flake8==3.2.1
