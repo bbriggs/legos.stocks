@@ -10,14 +10,7 @@ logger = logging.getLogger(__name__)
 class Hodl(Lego):
     def __init__(self, baseplate, lock):
         super().__init__(baseplate, lock)
-        self.hodl = configparser.ConfigParser()
-        self.hodl.read('hodl.ini')
-        if 'hodl' not in self.hodl.sections():
-            self.hodl['hodl'] = {}
-            self.hodl['hodl']['convert_from'] = 'BTC'
-            self.hodl['hodl']['convert_to'] = 'USD,BTC'
-            with open('hodl.ini', 'w') as configfile:
-                self.hodl.write(configfile)
+        self.hodl = self._config_init()
 
     def listening_for(self, message):
         if message['text'] is not None:
@@ -42,6 +35,19 @@ class Hodl(Lego):
             self.reply(message, self._parse_multi_commands(message_list), opts)
         except Exception as e:
             self.reply(message, 'An Error Ocurred: ' + e, opts)
+
+    def _config_init(self):
+        hodl = configparser.ConfigParser()
+        hodl.read('hodl.ini')
+        if len(hodl) == 0 or 'hodl' not in hodl.sections():
+            logger.warning('No hodl ini file or file contains no config. '
+                           'Loading Defaults')
+            hodl['hodl'] = {}
+            hodl['hodl']['convert_from'] = 'BTC'
+            hodl['hodl']['convert_to'] = 'USD,BTC'
+            with open('hodl.ini', 'w') as configfile:
+                hodl.write(configfile)
+        return hodl
 
     def _parse_multi_commands(self, message_list):
         if len(message_list) == 1:
